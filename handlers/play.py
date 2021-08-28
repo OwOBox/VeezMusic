@@ -40,7 +40,7 @@ def cb_admin_check(func: Callable) -> Callable:
         if cb.from_user.id in admemes:
             return await func(client, cb)
         else:
-            await cb.answer("you not allowed to do this!", show_alert=True)
+            await cb.answer("Bạn đéo có tư cách bấm nút ở đây!", show_alert=True)
             return
     return decorator                                                                       
                                           
@@ -97,7 +97,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
     img = Image.open("temp.png")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("etc/font.otf", 60)
-    draw.text((40, 550), f"Playing here....", (0, 0, 0), font=font)
+    draw.text((40, 550), f"Phát bài hát....", (0, 0, 0), font=font)
     draw.text((40, 630),
         f"{title}",
         (0, 0, 0),
@@ -115,19 +115,19 @@ async def playlist(client, message):
         return
     queue = que.get(message.chat.id)
     if not queue:
-        await message.reply_text("**nothing in streaming!**")
+        await message.reply_text("**Hình như trợ lý của tui chưa phát nhạc!**")
     temp = []
     for t in queue:
         temp.append(t)
     now_playing = temp[0][0]
     by = temp[0][1].mention(style="md")
-    msg = "**Now playing** on {}".format(message.chat.title)
+    msg = "**Đang phát** on {}".format(message.chat.title)
     msg += "\n• "+ now_playing
-    msg += "\n• Requested By "+by
+    msg += "\n• Yêu cầu bởi "+by
     temp.pop(0)
     if temp:
         msg += "\n\n"
-        msg += "**Queued Song**"
+        msg += "**Đang xếp hàng**"
         for song in temp:
             name = song[0]
             usr = song[1].mention(style="md")
@@ -138,13 +138,13 @@ async def playlist(client, message):
 # ============================= Settings =========================================
 def updated_stats(chat, queue, vol=100):
     if chat.id in callsmusic.pytgcalls.active_calls:
-        stats = "Pengaturan dari **{}**".format(chat.title)
+        stats = "Cài đặt từ **{}**".format(chat.title)
         if len(que) > 0:
             stats += "\n\n"
             stats += "Volume: {}%\n".format(vol)
-            stats += "Lagu dalam antrian: `{}`\n".format(len(que))
-            stats += "Sedang memutar lagu: **{}**\n".format(queue[0][0])
-            stats += "Atas permintaan: {}".format(queue[0][1].mention)
+            stats += "Bài hát trong hàng đợi: `{}`\n".format(len(que))
+            stats += "Đang phát bài hát: **{}**\n".format(queue[0][0])
+            stats += "Theo yêu cầu: {}".format(queue[0][1].mention)
     else:
         stats = None
     return stats
@@ -188,7 +188,7 @@ async def settings(client, message):
         else:
             await message.reply(stats, reply_markup=r_ply("play"))
     else:
-        await message.reply("**please turn on the voice chat first.**")
+        await message.reply("**Vui lòng bật trò chuyện thoại trước.**")
 
 
 @Client.on_message(
