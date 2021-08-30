@@ -23,7 +23,7 @@ async def _(bot: Client, cmd: Message):
     await handle_user_status(bot, cmd)
 
 # Back Button
-BACK_BUTTON = InlineKeyboardMarkup([[InlineKeyboardButton("🏡 BACK", callback_data="cbback")]])
+BACK_BUTTON = InlineKeyboardMarkup([[InlineKeyboardButton("🏡 Quay lại", callback_data="cbback")]])
 
 @Client.on_message(filters.text & ~filters.private)
 async def delcmd(_, message: Message):
@@ -40,7 +40,7 @@ async def update_admin(client, message):
     for u in new_ads:
         new_admins.append(u.user.id)
     admins[message.chat.id] = new_admins
-    await message.reply_text("✅ Bot **reloaded correctly !**\n✅ **Admin list** has been **updated !**")
+    await message.reply_text("✅ Bot **được tải lại đúng cách !**\n✅ **Danh sách quản trị viên** đã được **cập nhật !**")
 
 
 # Control Menu Of Player
@@ -49,36 +49,36 @@ async def update_admin(client, message):
 @authorized_users_only
 async def controlset(_, message: Message):
     await message.reply_text(
-        "**💡 music player control menu opened !**",
+        "**💡 menu điều khiển trình phát nhạc đã mở !**",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "⏸ pause music", callback_data="cbpause"
+                        "⏸ tạm dừng", callback_data="cbpause"
                     ),
                     InlineKeyboardButton(
-                        "▶️ resume music", callback_data="cbresume"
+                        "▶️ tiếp tục", callback_data="cbresume"
                     )
                 ],
                 [
                     InlineKeyboardButton(
-                        "⏩ skip music", callback_data="cbskip"
+                        "⏩ chuyển bài", callback_data="cbskip"
                     ),
                     InlineKeyboardButton(
-                        "⏹ end music", callback_data="cbend"
+                        "⏹ tắt nhạc", callback_data="cbend"
                     )
                 ],
                 [
                     InlineKeyboardButton(
-                        "🔇 mute player", callback_data="cbmute"
+                        "🔇 tắt tiếng", callback_data="cbmute"
                     ),
                     InlineKeyboardButton(
-                        "🔊 unmute player", callback_data="cbunmute"
+                        "🔊 bật tiếng", callback_data="cbunmute"
                     )
                 ],
                 [
                     InlineKeyboardButton(
-                        "🗑 del cmd", callback_data="cbdelcmds"
+                        "🗑 xóa bảng", callback_data="cbdelcmds"
                     )
                 ]
             ]
