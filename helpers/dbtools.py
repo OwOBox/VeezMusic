@@ -17,7 +17,7 @@ async def handle_user_status(bot, cmd):
         await db.add_user(chat_id)
         await bot.send_message(
             LOG_CHANNEL,
-            f"**📣 Notification** \n\n#NEW_USER **start use your bot!** \n\nFirst name: `{cmd.from_user.first_name}` \nUser id: `{cmd.from_user.id}` \nProfile link: [{cmd.from_user.first_name}](tg://user?id={cmd.from_user.id})"
+            f"**📣 Notification** \n\n#NEW_USER **bắt đầu sử dụng bot của bạn!** \n\nFirst name: `{cmd.from_user.first_name}` \nUser id: `{cmd.from_user.id}` \nProfile link: [{cmd.from_user.first_name}](tg://user?id={cmd.from_user.id})"
         )
 
     ban_status = await db.get_ban_status(chat_id)
@@ -27,7 +27,7 @@ async def handle_user_status(bot, cmd):
         ).days > ban_status["ban_duration"]:
             await db.remove_ban(chat_id)
         else:
-            await cmd.reply_text(f"sorry, you're banned, ask in @{GROUP_SUPPORT} if you think this was an mistake.", quote=True)
+            await cmd.reply_text(f"xin lỗi, bạn bị cấm, hãy hỏi@{GROUP_SUPPORT} nếu bạn nghĩ rằng đây là một sai lầm.", quote=True)
             return
     await cmd.continue_propagation()
     
@@ -49,11 +49,11 @@ async def send_msg(user_id, message):
         await asyncio.sleep(e.x)
         return send_msg(user_id, message)
     except InputUserDeactivated:
-        return 400, f"{user_id} : deactivated\n"
+        return 400, f"{user_id} : vô hiệu hóa\n"
     except UserIsBlocked:
-        return 400, f"{user_id} : blocked the bot\n"
+        return 400, f"{user_id} : chặn bot\n"
     except PeerIdInvalid:
-        return 400, f"{user_id} : user id invalid\n"
+        return 400, f"{user_id} : id người dùng không hợp lệ\n"
     except Exception as e:
         return 500, f"{user_id} : {traceback.format_exc()}\n"
 
@@ -66,7 +66,7 @@ async def main_broadcast_handler(m, db):
         if not broadcast_ids.get(broadcast_id):
             break
     out = await m.reply_text(
-        text=f"**💡 broadcast started...**\n\n**when it's done, you'll be notified**"
+        text=f"**💡 đã bắt đầu phát sóng...**\n\n**khi hoàn tất, bạn sẽ được thông báo**"
     )
     start_time = time.time()
     total_users = await db.total_users_count()
@@ -111,13 +111,13 @@ async def main_broadcast_handler(m, db):
     await out.delete()
     if failed == 0:
         await m.reply_text(
-            text=f"✅ Broadcasting completed! \n**Completed in:** `{completed_in}` \n\n**Total users:** `{total_users}` \n**Total done:** `{done}` \n**Total success:** `{success}` \n**Total failed:** `{failed}`",
+            text=f"✅ Quá trình phát sóng đã hoàn tất! \n**Hoàn thành trong:** `{completed_in}` \n\n**Tổng số người dùng:** `{total_users}` \n**Tổng số đã hoàn thành:** `{done}` \n**Total success:** `{success}` \n**Total failed:** `{failed}`",
             quote=True
         )
     else:
         await m.reply_document(
             document='broadcast-logs.txt',
-            caption=f"✅ Broadcasting completed! \n**Completed in:** `{completed_in}`\n\n**Total users:** `{total_users}` \n**Total done:** `{done}` \n**Total success:** `{success}` \n**Total failed:** `{failed}`",
+            caption=f"✅ Quá trình phát sóng đã hoàn tất! \n**Hoàn thành trong:** `{completed_in}`\n\n**Total users:** `{total_users}` \n**Total done:** `{done}` \n**Total success:** `{success}` \n**Total failed:** `{failed}`",
             quote=True
         )
     os.remove('broadcast-logs.txt')
